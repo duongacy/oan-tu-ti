@@ -1,11 +1,24 @@
 import React from 'react';
 import './App.css';
 import {useSelector} from 'react-redux';
-import {IOanTuTiState} from './redux/types';
+import * as types from './redux/types';
+import {useDispatch} from 'react-redux';
+import {ButtonChon} from './components/ButtonChon';
+import * as formatTypes from './formatTypes';
 
 function App() {
+    const dispatch = useDispatch();
     const {oanTuTiState}: any = useSelector((root) => root);
-    const {playerChoose, computerChoose, result, match, win} = oanTuTiState;
+    const {playerChoose, computerChoose, result, match, win, listChoose} =
+        oanTuTiState;
+    
+    const playGame=()=>{
+      const action:types.IAction ={
+        type: types.RANDOM,
+        payload: ""
+      }
+      dispatch(action)
+    }
 
     const {mainBg, player} = myStyle;
     return (
@@ -23,27 +36,27 @@ function App() {
                                     background:
                                         "url('images/talk-1.png') no-repeat",
                                 }}>
-                                <img src='images/keo.png' width='60' alt='' />
+                                <img
+                                    src={`images/${playerChoose}.png`}
+                                    width='60'
+                                    alt=''
+                                />
                             </div>
                             <img src='images/player.png' {...player} alt='' />
                         </div>
                         <div className='d-flex gap-2 ms-4'>
-                            <button>
-                                <img src='images/keo.png' width='50px' alt='' />
-                            </button>
-                            <button>
-                                <img src='images/bua.png' width='50px' alt='' />
-                            </button>
-                            <button>
-                                <img src='images/bao.png' width='50px' alt='' />
-                            </button>
+                            {listChoose.map(
+                                (item: formatTypes.IGameItem, key: number) => (
+                                    <ButtonChon item={item} key={key} />
+                                )
+                            )}
                         </div>
                     </div>
                     <div className='col-6 text-center fw-bold d-flex flex-column justify-content-center align-items-center gap-4'>
-                        <h1 className='text-white '>Y dep trai</h1>
-                        <h2 className='text-warning'>Số bàn thắng</h2>
-                        <h2 className='text-warning'>Số bàn chơi</h2>
-                        <button className='btn btn-success px-5 rounded-0'>
+                        <h1 className='text-white '>{result}</h1>
+                        <h2 className='text-warning'>Số bàn thắng: {win}</h2>
+                        <h2 className='text-warning'>Số bàn chơi: {match}</h2>
+                        <button className='btn btn-success px-5 rounded-0' onClick={playGame}>
                             Chơi
                         </button>
                     </div>
@@ -58,7 +71,7 @@ function App() {
                                     "url('images/talk-2.png') no-repeat",
                             }}>
                             <img
-                                src='images/keo.png'
+                                src={`images/${computerChoose}.png`}
                                 width='60'
                                 alt=''
                                 style={{transform: 'rotate(180deg)'}}
