@@ -38,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/redux-saga": "^0.10.5",
+    "redux-saga": "^1.1.3"
   }
 }

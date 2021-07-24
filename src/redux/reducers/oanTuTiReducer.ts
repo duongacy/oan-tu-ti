@@ -43,11 +43,13 @@ export const oanTuTiReducer = (state = initialState, action: types.IAction) => {
                 itemChon.status = true;
             }
             break;
+        case types.RANDOM_ING:
+            console.log("action.payload");
+            break;
 
-        case types.RANDOM:
+        case types.RANDOM_SUCCESS:
             state.match += 1;
-            const indexRandom = Math.floor(Math.random() * 3);
-            state.computerChoose = listRandom[indexRandom];
+            state.computerChoose = action.payload;
             state.result = handleWin(state.playerChoose, state.computerChoose);
             if (state.result === "THANG") { state.win += 1; }
             break;
